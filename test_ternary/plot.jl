@@ -1,3 +1,4 @@
+using Makie
 using GLMakie
 using TernaryDiagrams
 using JLD2
@@ -11,7 +12,10 @@ mus = mus[1:20]
 fig = Figure(size = (900, 600))
 ax = Axis(fig[1, 1], aspect=DataAspect())
 
-ternarycontourf!(ax, a1, a2, a3, mus; levels = 10)
+ternarycontourf!(ax, a1, a2, a3, mus;
+    levels = 10,
+    colormap = reverse(Makie.ColorSchemes.Spectral),
+)
 
 p = ternaryaxis!(
     ax;
