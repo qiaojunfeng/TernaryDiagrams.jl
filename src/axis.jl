@@ -49,10 +49,12 @@ function draw_triangle_axis_labels!(tr::TernaryAxis)
         rotation = π / 3 * arrow_label_rot_adj, # sometimes this is not aligned
         fontsize = tr.arrow_label_fontsize[] * !tr.hide_triangle_labels[],
     )
-    x0, y0 = (R*[0.7, 0.0, 0.3])[2:3] # eyeballed good looking arrow start
-    y1 = y0 + y_arrow_adj / 2
-    x1 = x0 - sqrt(3) * (y1 - y0)
-    arrows!(tr, [x1], [y1], [arrow_scale * r3[1]], [arrow_scale * r3[2]])
+    if !tr.hide_arrows[]
+        x0, y0 = (R*[0.7, 0.0, 0.3])[2:3] # eyeballed good looking arrow start
+        y1 = y0 + y_arrow_adj / 2
+        x1 = x0 - sqrt(3) * (y1 - y0)
+        arrows!(tr, [x1], [y1], [arrow_scale * r3[1]], [arrow_scale * r3[2]])
+    end
 
     # lambda 2: the "y" axis
     x0, y0 = (R*[0.0, 0.5, 0.5])[2:3]
@@ -66,16 +68,18 @@ function draw_triangle_axis_labels!(tr::TernaryAxis)
         rotation = -π / 3 * arrow_label_rot_adj,
         fontsize = tr.arrow_label_fontsize[] * !tr.hide_triangle_labels[],
     )
-    x0, y0 = (R*[0.0, 0.3, 0.7])[2:3]
-    y1 = y0 + y_arrow_adj / 2
-    x1 = x0 + sqrt(3) * (y1 - y0)
-    arrows!(
-        tr,
-        [x1],
-        [y1],
-        [-arrow_scale * (r3[1] - r2[1])],
-        [-arrow_scale * (r3[2] - r2[2])],
-    )
+    if !tr.hide_arrows[]
+        x0, y0 = (R*[0.0, 0.3, 0.7])[2:3]
+        y1 = y0 + y_arrow_adj / 2
+        x1 = x0 + sqrt(3) * (y1 - y0)
+        arrows!(
+            tr,
+            [x1],
+            [y1],
+            [-arrow_scale * (r3[1] - r2[1])],
+            [-arrow_scale * (r3[2] - r2[2])],
+        )
+    end
 
     # lambda 1: the "x" axis
     x0, y0 = (R*[0.5, 0.5, 0.0])[2:3]
@@ -88,10 +92,12 @@ function draw_triangle_axis_labels!(tr::TernaryAxis)
         align = (:center, :center),
         fontsize = tr.arrow_label_fontsize[] * !tr.hide_triangle_labels[],
     )
-    x0, y0 = (R*[0.3, 0.7, 0.0])[2:3]
-    y1 = y0 - y_arrow_adj
-    x1 = x0
-    arrows!(tr, [x1], [y1], [-arrow_scale * r2[1]], [-arrow_scale * r2[2]])
+    if !tr.hide_arrows[]
+        x0, y0 = (R*[0.3, 0.7, 0.0])[2:3]
+        y1 = y0 - y_arrow_adj
+        x1 = x0
+        arrows!(tr, [x1], [y1], [-arrow_scale * r2[1]], [-arrow_scale * r2[2]])
+    end
 end
 
 function draw_grid!(tr::TernaryAxis)

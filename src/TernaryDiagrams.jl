@@ -69,6 +69,7 @@ Makie.@recipe(TernaryAxis) do scene
         grid_line_width = 0.5,
         hide_vertex_labels = false,
         hide_triangle_labels = false,
+        hide_arrows = false,
     )
 end
 

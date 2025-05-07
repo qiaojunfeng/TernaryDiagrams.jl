@@ -1,0 +1,4 @@
+[deps]
+GLMakie = "e9467ef8-e4e7-5192-8a1a-b1aee30e663a"
+JLD2 = "033835bb-8acc-5ee8-8aae-3f567f8a3819"
+TernaryDiagrams = "54198458-1476-45ac-9e44-88a4201bfea6"
