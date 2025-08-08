@@ -20,10 +20,19 @@ function Makie.plot!(tr::TernaryContour)
     update_plot(tr[:x][], tr[:y][], tr[:z][], tr[:w][])
 
     # make bins for levels
-    lb = max(minimum(ws[]), tr.clip_min_w[])
-    ub = min(maximum(ws[]), tr.clip_max_w[])
-    d = (ub - lb) / (tr.levels[] + 1)
-    bins = [(lb + n * d) for n = 1:tr.levels[]]
+    if tr.levels[] isa AbstractVector
+        bins = tr.levels[]
+        lb = max(tr.levels[][1], tr.clip_min_w[])
+        ub = min(tr.levels[][end], tr.clip_max_w[])
+        nlevels = length(bins)
+    else
+        lb = max(minimum(ws[]), tr.clip_min_w[])
+        ub = min(maximum(ws[]), tr.clip_max_w[])
+        d = (ub - lb) / (tr.levels[] + 1)
+        bins = [(lb + n * d) for n = 1:tr.levels[]]
+        nlevels = tr.levels[]
+    end
+    println("Levels: ", bins)
 
     if tr.pad_data[]
         data_coords = delaunay_scale.([gp.Point2D.(x, y) for (x, y) in zip(xs[], ys[])])
@@ -37,9 +46,11 @@ function Makie.plot!(tr::TernaryContour)
 
     scaled_coords, weights = rem_repeats(_scaled_coords, _weights)
 
-    level_edges, _ = contour_triangle(scaled_coords, bins, weights, tr.levels[])
+    level_edges, _ = contour_triangle(scaled_coords, bins, weights, nlevels)
+    println(keys(level_edges))
 
-    for level = 1:tr.levels[]
+    for level = 1:nlevels
+        haskey(level_edges, level) || continue
         for curve in split_edges(level_edges[level])
             lines!(
                 tr,

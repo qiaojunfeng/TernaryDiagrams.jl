@@ -20,17 +20,22 @@ function Makie.plot!(tr::TernaryContourf)
             push!(_ws, w)
         end
 
-        # always pad data to make filling easier
-        data_coords = delaunay_scale.([gp.Point2D.(x, y) for (x, y) in zip(_xs, _ys)])
-        pad_coords, pad_weights = generate_padded_data(data_coords, _ws)
-        _scaled_coords = [data_coords; pad_coords]
-        _weights = [_ws; pad_weights]
+        if false
+            # always pad data to make filling easier
+            data_coords = delaunay_scale.([gp.Point2D.(x, y) for (x, y) in zip(_xs, _ys)])
+            pad_coords, pad_weights = generate_padded_data(data_coords, _ws)
+            _scaled_coords = [data_coords; pad_coords]
+            _weights = [_ws; pad_weights]
+            scaled_coords, weights = rem_repeats(_scaled_coords, _weights)
+            append!(xs[], [first(unpack(delaunay_unscale(p))) for p in scaled_coords])
+            append!(ys[], [last(unpack(delaunay_unscale(p))) for p in scaled_coords])
+            append!(ws[], weights)
+        else
+            append!(xs[], _xs)
+            append!(ys[], _ys)
+            append!(ws[], _ws)
+        end
 
-        scaled_coords, weights = rem_repeats(_scaled_coords, _weights)
-
-        append!(xs[], [first(unpack(delaunay_unscale(p))) for p in scaled_coords])
-        append!(ys[], [last(unpack(delaunay_unscale(p))) for p in scaled_coords])
-        append!(ws[], weights)
     end
     Makie.Observables.onany(update_plot, tr[:x], tr[:y], tr[:z], tr[:w])
     update_plot(tr[:x][], tr[:y][], tr[:z][], tr[:w][])
