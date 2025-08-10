@@ -16,12 +16,20 @@ function Makie.plot!(tr::TernaryScatter)
     update_plot(tr[:x][], tr[:y][], tr[:z][])
 
     # plot data points
+    kwargs = Dict{Symbol, Any}()
+    if haskey(tr, :colorrange)
+        kwargs[:colorrange] = tr[:colorrange][]
+    end
+    if haskey(tr, :colormap)
+        kwargs[:colormap] = tr[:colormap][]
+    end
     scatter!(
         tr,
-        dpoints,
+        dpoints;
         color = tr.color[],
         marker = tr.marker[],
         markersize = tr.markersize[],
+        kwargs...,
     )
 
     tr

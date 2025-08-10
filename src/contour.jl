@@ -32,7 +32,6 @@ function Makie.plot!(tr::TernaryContour)
         bins = [(lb + n * d) for n = 1:tr.levels[]]
         nlevels = tr.levels[]
     end
-    println("Levels: ", bins)
 
     if tr.pad_data[]
         data_coords = delaunay_scale.([gp.Point2D.(x, y) for (x, y) in zip(xs[], ys[])])
@@ -47,7 +46,6 @@ function Makie.plot!(tr::TernaryContour)
     scaled_coords, weights = rem_repeats(_scaled_coords, _weights)
 
     level_edges, _ = contour_triangle(scaled_coords, bins, weights, nlevels)
-    println(keys(level_edges))
 
     for level = 1:nlevels
         haskey(level_edges, level) || continue
