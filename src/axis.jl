@@ -166,7 +166,7 @@ function draw_grid!(tr::TernaryAxis)
         lines!(tr, [x1, x2], linewidth = grid_line_width, color = grid_line_color)
 
         # labelx
-        f1 in 0:0.2:1.0 && continue
+        # f1 in 0:0.2:1.0 && continue
         text!(
             tr,
             x1,
@@ -188,7 +188,7 @@ function draw_grid!(tr::TernaryAxis)
         lines!(tr, [x1, x2], linewidth = grid_line_width, color = grid_line_color)
 
         #labely
-        f1 in 0:0.2:1.0 && continue
+        # f1 in 0:0.2:1.0 && continue
         text!(
             tr,
             x1,
@@ -210,7 +210,7 @@ function draw_grid!(tr::TernaryAxis)
         lines!(tr, [x1, x2], linewidth = grid_line_width, color = grid_line_color)
 
         # labelz
-        f1 in 0:0.2:1.0 && continue
+        # f1 in 0:0.2:1.0 && continue
         text!(
             tr,
             x1,

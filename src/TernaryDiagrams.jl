@@ -93,6 +93,7 @@ $(Makie.ATTRIBUTES)
         color = :red, # can also be an array of colors
         marker = :circle,
         markersize = 8,
+        clipaxes = false,
     )
 end
 

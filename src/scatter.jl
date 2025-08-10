@@ -34,16 +34,18 @@ function Makie.plot!(tr::TernaryScatter)
     )
 
     # hack: draw a white triangle to clip the scatter points outside of the axes
-    s = 0.1
-    p1 = r1 - [cosd(30), sind(30)] * s
-    p2 = r2 + [cosd(30), -sind(30)] * s
-    p3 = r3 + [0, s]
-    # polygon with hole
-    p = Makie.Polygon(
-        Point2f[p1, p2, p3, p1],
-        [Point2f[r1, r2, r3, r1]],
-    )
-    poly!(tr, p, color = :white)
+    if tr.clipaxes[]
+        s = 0.1
+        p1 = r1 - [cosd(30), sind(30)] * s
+        p2 = r2 + [cosd(30), -sind(30)] * s
+        p3 = r3 + [0, s]
+        # polygon with hole
+        p = Makie.Polygon(
+            Point2f[p1, p2, p3, p1],
+            [Point2f[r1, r2, r3, r1]],
+        )
+        poly!(tr, p, color = :white)
+    end
 
     tr
 end
