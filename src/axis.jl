@@ -1,5 +1,5 @@
 function draw_triangle_base!(tr::TernaryAxis)
-    lines!(tr, [Point2f(r1...), Point2f(r2...), Point2f(r3...), Point2f(r1...)], color = :black)
+    lines!(tr, [Point2f(r1...), Point2f(r2...), Point2f(r3...), Point2f(r1...)], color = :black, linewidth = tr.axis_line_width[])
 end
 
 function draw_triangle_vertex_labels!(tr::TernaryAxis)
