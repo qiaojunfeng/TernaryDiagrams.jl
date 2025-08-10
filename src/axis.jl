@@ -100,6 +100,54 @@ function draw_triangle_axis_labels!(tr::TernaryAxis)
     end
 end
 
+function draw_triangle_axis_ticks!(tr::TernaryAxis)
+    if tr.hide_axis_ticks[]
+        return
+    end
+
+    # settings
+    tick_with = tr.axis_tick_width[]
+    tick_color = tr.axis_tick_color[]
+    tick_length = 0.01
+    # draw grid
+    # fracs = 0.0:0.1:1.0
+    # skip the edges
+    fracs = 0.1:0.1:0.9
+
+    for f1 in fracs
+        f2 = 1 - f1
+        vec1 = [f1, f2, 0]
+        vec2 = [f1, f2+tick_length, -tick_length]
+
+        x1 = Point2f((R*vec1)[2:3]...)
+        x2 = Point2f((R*vec2)[2:3]...)
+
+        lines!(tr, [x1, x2], linewidth = tick_with, color = tick_color)
+    end
+
+    for f1 in fracs
+        f2 = 1 - f1
+        vec1 = [0, f2, f1]
+        vec2 = [-tick_length, f2, f1+tick_length]
+
+        x1 = Point2f((R*vec1)[2:3]...)
+        x2 = Point2f((R*vec2)[2:3]...)
+
+        lines!(tr, [x1, x2], linewidth = tick_with, color = tick_color)
+    end
+
+    for f1 in fracs
+        f2 = 1 - f1
+        vec1 = [f2, 0, f1]
+        vec2 = [f2+tick_length, -tick_length, f1]
+
+        x1 = Point2f((R*vec1)[2:3]...)
+        x2 = Point2f((R*vec2)[2:3]...)
+
+        lines!(tr, [x1, x2], linewidth = tick_with, color = tick_color)
+    end
+end
+
 function draw_grid!(tr::TernaryAxis)
     # settings
     grid_line_width = tr.grid_line_width[]
@@ -179,6 +227,7 @@ function Makie.plot!(tr::TernaryAxis)
     draw_triangle_base!(tr)
     draw_triangle_vertex_labels!(tr)
     draw_triangle_axis_labels!(tr)
+    draw_triangle_axis_ticks!(tr)
     draw_grid!(tr)
     tr
 end
